@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from urllib.request import urlopen
-from .models import Word
+from .models import Word, Translation
 
 def make_url(word):
     url = "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/"
@@ -39,5 +39,9 @@ def index(request):
 
         print(definition)
         return render(request, 'auto_dict/index.html', {'word' : word, 'definition' : definition})
+
+    translations = Translation.objects.all()
+    first = translations.first()
+    second = translations.last()
     
-    return render(request, 'auto_dict/index.html')
+    return render(request, 'auto_dict/index.html', {'first_translation': first, 'second_translation': second})
